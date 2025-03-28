@@ -131,7 +131,6 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
     })
 
     if (nearbyElements.length > 0) {
-      onCombine(draggedElement, nearbyElements[0])
       // Calculate the midpoint between the two elements
       const midX = (draggedElement.x + nearbyElements[0].x) / 2
       const midY = (draggedElement.y + nearbyElements[0].y) / 2
@@ -141,7 +140,7 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
       const combination = combinations[combinationKey]
 
       if (combination) {
-        // Remove only the two combined elements and add the new element
+        // Remove the combined elements and add the new element
         setElements(prev => {
           const remainingElements = prev.filter(el => 
             el.uniqueId !== draggedElement.uniqueId && el.uniqueId !== nearbyElements[0].uniqueId
@@ -156,7 +155,7 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
         })
       }
     } else {
-      // Update only the position of the dragged element
+      // Update the position of the dragged element
       setElements(prev => prev.map(el => 
         el.uniqueId === draggedElement.uniqueId ? { ...draggedElement } : el
       ))
