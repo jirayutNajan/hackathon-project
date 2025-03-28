@@ -35,6 +35,7 @@ export const combinations = {
     category: "compound",
     requiresTemperature: true,
     minTemp: 800,
+    maxTemp: 1000,
   },
   "dust-earth": { id: "rock", name: "Rock", icon: "🪨", category: "compound" },
   "rock-time": { id: "sand", name: "Sand", icon: "⛱️", category: "compound" },
@@ -46,6 +47,7 @@ export const combinations = {
     category: "compound",
     requiresTemperature: true,
     minTemp: 300,
+    maxTemp: 1000,
   },
   "fire-quartz": {
     id: "silicon",
@@ -54,6 +56,7 @@ export const combinations = {
     category: "compound",
     requiresTemperature: true,
     minTemp: 800,
+    maxTemp: 1000,
   },
   "heat-metal": {
     id: "copper",
@@ -62,6 +65,7 @@ export const combinations = {
     category: "compound",
     requiresTemperature: true,
     minTemp: 400,
+    maxTemp : 1000,
   },
   "copper-pressure": {
     id: "gold",
