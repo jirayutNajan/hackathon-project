@@ -6,12 +6,38 @@ export const useGame = () => {
   const [discoveredElements, setDiscoveredElements] = useState([])
   const [resultHint, setResultHint] = useState('')
   const [currentStageIndex, setCurrentStageIndex] = useState(0)
+  const [elementTemperatures, setElementTemperatures] = useState({})
+
+  const handleTemperatureChange = useCallback((elementId, temperature) => {
+    setElementTemperatures(prev => ({
+      ...prev,
+      [elementId]: temperature
+    }))
+  }, [])
 
   const handleCombine = useCallback((element1, element2) => {
     const combinationKey = [element1.id, element2.id].sort().join('-')
     const combination = combinations[combinationKey]
 
     if (combination) {
+      // Check temperature requirements if the combination needs it
+      if (combination.requiresTemperature) {
+        const fireTemp = elementTemperatures[element1.id] || element1.defaultTemp
+        const waterTemp = elementTemperatures[element2.id] || element2.defaultTemp
+        
+        if (fireTemp < combination.minTemp) {
+          setResultHint(`The fire needs to be hotter (at least ${combination.minTemp}°C) to create ${combination.name}!`)
+          setTimeout(() => setResultHint(''), 3000)
+          return
+        }
+        
+        if (fireTemp > combination.maxTemp) {
+          setResultHint(`The fire is too hot! Lower it below ${combination.maxTemp}°C to create ${combination.name}!`)
+          setTimeout(() => setResultHint(''), 3000)
+          return
+        }
+      }
+
       setDiscoveredElements(prev => {
         if (!prev.find(el => el.id === combination.id)) {
           return [...prev, combination]
@@ -39,13 +65,14 @@ export const useGame = () => {
         setResultHint('')
       }, 2000)
     }
-  }, [currentStageIndex])
+  }, [currentStageIndex, elementTemperatures])
 
   const resetGame = useCallback(() => {
     setElements(initialElements)
     setDiscoveredElements([])
     setResultHint('')
     setCurrentStageIndex(0)
+    setElementTemperatures({})
   }, [])
 
   // Get the current stage's name as the next hint
@@ -59,6 +86,8 @@ export const useGame = () => {
     resultHint,
     nextHint,
     currentStage: stages[currentStageIndex],
+    elementTemperatures,
+    handleTemperatureChange,
     handleCombine,
     resetGame
   }

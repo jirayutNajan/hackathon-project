@@ -10,6 +10,8 @@ function App() {
     discoveredElements,
     resultHint,
     nextHint,
+    elementTemperatures,
+    handleTemperatureChange,
     handleCombine,
     resetGame
   } = useGame()
@@ -30,7 +32,11 @@ function App() {
         <div className="flex gap-6">
           {/* Canvas Area */}
           <div className="flex-1">
-            <Canvas onCombine={handleCombine} />
+            <Canvas 
+              onCombine={handleCombine}
+              elementTemperatures={elementTemperatures}
+              onTemperatureChange={handleTemperatureChange}
+            />
           </div>
 
           {/* Item Panel */}
