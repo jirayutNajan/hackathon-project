@@ -8,7 +8,7 @@ export const useGame = () => {
   const [nextHint, setNextHint] = useState('make sand')
 
   const handleCombine = useCallback((element1, element2) => {
-    // Try both combinations: element1 + element2 and element2 + element1
+    
     const combinationKey = [element1.id, element2.id].sort().join('-')
     
     const combination = combinations[combinationKey]
