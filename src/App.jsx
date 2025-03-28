@@ -8,7 +8,8 @@ function App() {
   const {
     elements,
     discoveredElements,
-    hint,
+    resultHint,
+    nextHint,
     handleCombine,
     resetGame
   } = useGame()
@@ -41,7 +42,7 @@ function App() {
           />
         </div>
 
-        <Hint hint={hint} />
+        <Hint resultHint={resultHint} nextHint={nextHint} />
       </div>
     </div>
   )

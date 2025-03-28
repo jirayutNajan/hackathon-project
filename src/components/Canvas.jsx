@@ -75,7 +75,13 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
 
     try {
       const element = JSON.parse(e.dataTransfer.getData('text/plain'))
-      const newElement = { ...element, x, y }
+      // Add unique ID to the element
+      const newElement = { 
+        ...element, 
+        x, 
+        y,
+        uniqueId: `${element.id}-${Date.now()}-${Math.random()}` 
+      }
       setElements(prev => [...prev, newElement])
     } catch (error) {
       console.error('Failed to parse dropped element:', error)
@@ -116,7 +122,7 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
 
     // Check for combinations
     const nearbyElements = elements.filter(element => {
-      if (element.id === draggedElement.id) return false
+      if (element.uniqueId === draggedElement.uniqueId) return false
       const distance = Math.sqrt(
         Math.pow(draggedElement.x - element.x, 2) +
         Math.pow(draggedElement.y - element.y, 2)
@@ -135,23 +141,24 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
       const combination = combinations[combinationKey]
 
       if (combination) {
-        // Remove the combined elements and add the new element at the midpoint
+        // Remove only the two combined elements and add the new element
         setElements(prev => {
-          const filteredElements = prev.filter(el => 
-            el.id !== draggedElement.id && el.id !== nearbyElements[0].id
+          const remainingElements = prev.filter(el => 
+            el.uniqueId !== draggedElement.uniqueId && el.uniqueId !== nearbyElements[0].uniqueId
           )
           const newElement = {
             ...combination,
             x: midX,
-            y: midY
+            y: midY,
+            uniqueId: `${combination.id}-${Date.now()}-${Math.random()}`
           }
-          return [...filteredElements, newElement]
+          return [...remainingElements, newElement]
         })
       }
     } else {
-      // Update the position of the dragged element
+      // Update only the position of the dragged element
       setElements(prev => prev.map(el => 
-        el.id === draggedElement.id ? draggedElement : el
+        el.uniqueId === draggedElement.uniqueId ? { ...draggedElement } : el
       ))
     }
 

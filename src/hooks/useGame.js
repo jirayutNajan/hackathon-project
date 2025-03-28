@@ -4,7 +4,8 @@ import { initialElements, combinations } from '../data/elements'
 export const useGame = () => {
   const [elements, setElements] = useState(initialElements)
   const [discoveredElements, setDiscoveredElements] = useState([])
-  const [hint, setHint] = useState('')
+  const [resultHint, setResultHint] = useState('')
+  const [nextHint, setNextHint] = useState('make sand')
 
   const handleCombine = useCallback((element1, element2) => {
     // Try both combinations: element1 + element2 and element2 + element1
@@ -19,23 +20,35 @@ export const useGame = () => {
         }
         return prev
       })
-      setHint(`New combination discovered: ${element1.name} + ${element2.name} = ${combination.name}!`)
+      setResultHint(`${element1.name} + ${element2.name} = ${combination.name}!`)
+      setNextHint(combination.hint.replace('Next: ', ''))
+      
+      // Clear the result hint after 3 seconds
+      setTimeout(() => {
+        setResultHint('')
+      }, 3000)
     } else {
-      setHint(`${element1.name} + ${element2.name} cannot be combined`)
+      setResultHint(`${element1.name} + ${element2.name} cannot be combined`)
+      // Clear the error hint after 2 seconds
+      setTimeout(() => {
+        setResultHint('')
+      }, 2000)
     }
   }, [])
 
   const resetGame = useCallback(() => {
     setElements(initialElements)
     setDiscoveredElements([])
-    setHint('')
+    setResultHint('')
+    setNextHint('make sand')
   }, [])
 
   return {
     elements,
     discoveredElements,
-    hint,
+    resultHint,
+    nextHint,
     handleCombine,
     resetGame
   }
-} 
+}
