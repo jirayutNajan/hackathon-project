@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { combinations } from '../data/elements'
+import TemperatureControl from './TemperatureControl'
 
-const Canvas = ({ onCombine, width = 600, height = 600 }) => {
+const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onTemperatureChange }) => {
   const canvasRef = useRef(null)
   const [elements, setElements] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const [draggedElement, setDraggedElement] = useState(null)
+  const [selectedElement, setSelectedElement] = useState(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -39,6 +41,13 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
       ctx.textBaseline = 'middle'
       ctx.fillStyle = '#000000'
       ctx.fillText(element.icon, element.x, element.y)
+
+      // Draw temperature if element has temperature
+      if (element.hasTemperature) {
+        const temp = elementTemperatures[element.id] || element.defaultTemp
+        ctx.font = '12px Arial'
+        ctx.fillText(`${temp}°C`, element.x, element.y + 25)
+      }
     })
 
     // Draw dragged element if exists
@@ -104,6 +113,9 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
     if (clickedElement) {
       setDraggedElement(clickedElement)
       setIsDragging(true)
+      setSelectedElement(clickedElement)
+    } else {
+      setSelectedElement(null)
     }
   }
 
@@ -153,6 +165,7 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
           }
           return [...remainingElements, newElement]
         })
+        onCombine(draggedElement, nearbyElements[0])
       }
     } else {
       // Update the position of the dragged element
@@ -166,18 +179,27 @@ const Canvas = ({ onCombine, width = 600, height = 600 }) => {
   }
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={width}
-      height={height}
-      className="bg-white rounded-lg shadow-lg"
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-    />
+    <div className="relative">
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        className="bg-white rounded-lg shadow-lg"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      />
+      {selectedElement && selectedElement.hasTemperature && (
+        <TemperatureControl
+          element={selectedElement}
+          temperature={elementTemperatures[selectedElement.id] || selectedElement.defaultTemp}
+          onChange={onTemperatureChange}
+        />
+      )}
+    </div>
   )
 }
 
