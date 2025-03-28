@@ -5,8 +5,7 @@ export const initialElements = [
   { id: 'air', name: 'Air', icon: '💨', category: 'basic' },
   { id: 'time', name: 'Time', icon: '⏳', category: 'basic' },
   {id:'pressure' , name: 'Pressure', icon: '🗜', category: 'basic'},
-  {id:'energy' , name: 'Energy', icon: '⚡', category: 'basic'},
-  
+  {id:'energy' , name: 'Energy', icon: '⚡', category: 'basic'},  
 ]
 
 export const combinations = {
@@ -20,6 +19,8 @@ export const combinations = {
   'copper-pressure': { id: 'gold', name: 'Gold', icon: '🪙', category: 'compound' },
   'energy-metal': { id: 'electricity', name: 'Electricity', icon: '🔌', category: 'compound' },
   'energy-silicon': { id: 'semi-conductor', name: 'SC', icon: '📱', category: 'compound' },
+  'metal-semi-conductor': { id: 'transistor', name: 'Transistor', icon: '𓇲', category: 'compound' },
+  'transistor-gold': { id: 'cpu', name: 'CPU', icon: '🔲', category: 'compound' },
 
 }
 
