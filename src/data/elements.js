@@ -3,16 +3,24 @@ export const initialElements = [
   { id: 'fire', name: 'Fire', icon: '🔥', category: 'basic' },
   { id: 'earth', name: 'Earth', icon: '🌍', category: 'basic' },
   { id: 'air', name: 'Air', icon: '💨', category: 'basic' },
+  { id: 'time', name: 'Time', icon: '⏳', category: 'basic' },
+  {id:'pressure' , name: 'Pressure', icon: '🗜', category: 'basic'},
+  {id:'energy' , name: 'Energy', icon: '⚡', category: 'basic'},
+  
 ]
 
 export const combinations = {
-  'air-earth': { id: 'dust', name: 'Dust', icon: '💨', category: 'compound' },
-  'air-fire': { id: 'smoke', name: 'Smoke', icon: '💨', category: 'compound' },
-  'earth-fire': { id: 'lava', name: 'Lava', icon: '🌋', category: 'compound' },
-  'fire-water': { id: 'steam', name: 'Steam', icon: '💨', category: 'compound' },
-  'water-air': { id: 'rain', name: 'Rain', icon: '🌧️', category: 'compound' },
-  'water-earth': { id: 'mud', name: 'Mud', icon: '🌊', category: 'compound' },
-  'fire-steam': { id: 'lava', name: 'Lava', icon: '♨️', category: 'compound' },
+  'air-earth': { id: 'dust', name: 'Dust', icon: '🌫️', category: 'compound' },
+  'dust-earth': { id: 'rock', name: 'Rock', icon: '🪨', category: 'compound' },
+  'rock-time': { id: 'sand' , name: 'Sand', icon: '⛱️', category: 'compound' },
+  'rock-rock': { id: 'metal', name: 'Metal', icon: '🔩', category: 'compound' },
+  'fire-sand': { id: 'quartz', name: 'Quartz', icon: '𖢻', category: 'compound' },
+  'fire-quartz': { id: 'silicon', name: 'Silicon', icon: '🇸🇮', category: 'compound' },
+  'heat-metal': { id: 'copper', name: 'Copper', icon: '🥉', category: 'compound' },
+  'copper-pressure': { id: 'gold', name: 'Gold', icon: '🪙', category: 'compound' },
+  'energy-metal': { id: 'electricity', name: 'Electricity', icon: '🔌', category: 'compound' },
+  'energy-silicon': { id: 'semi-conductor', name: 'SC', icon: '📱', category: 'compound' },
+
 }
 
 export const categories = {

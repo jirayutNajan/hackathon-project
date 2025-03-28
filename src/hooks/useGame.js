@@ -7,7 +7,7 @@ export const useGame = () => {
   const [hint, setHint] = useState('')
 
   const handleCombine = useCallback((element1, element2) => {
-    // Try both combinations: element1 + element2 and element2 + element1
+    
     const combinationKey = [element1.id, element2.id].sort().join('-')
     
     const combination = combinations[combinationKey]
@@ -20,7 +20,8 @@ export const useGame = () => {
         return prev
       })
       setHint(`New combination discovered: ${element1.name} + ${element2.name} = ${combination.name}!`)
-    } else {
+    } 
+    else {
       setHint(`${element1.name} + ${element2.name} cannot be combined`)
     }
   }, [])
