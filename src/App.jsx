@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import MainMenu from './pages/MainMenu'
 import GameSelection from './pages/GameSelection'
 import ComGame from './pages/ComGame'
+import Walkthrough from './pages/Walkthrough'
 import './App.css'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
               <p className="text-gray-600">Coming soon!</p>
             </div>
           </div>} />
+          <Route path="/walkthrough" element={<Walkthrough />} />
         </Routes>
       </div>
     </Router>
