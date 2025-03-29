@@ -129,23 +129,43 @@ const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onT
     setDraggedElement(prev => ({ ...prev, x, y }))
   }
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e) => {
     if (!isDragging || !draggedElement) return
+
+    const rect = canvasRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    // Check if element is dragged outside canvas boundaries
+    const isOutsideCanvas = 
+      x < 0 || 
+      x > width || 
+      y < 0 || 
+      y > height
+
+    if (isOutsideCanvas) {
+      // Remove the element from the canvas
+      setElements(prev => prev.filter(el => el.uniqueId !== draggedElement.uniqueId))
+      setDraggedElement(null)
+      setIsDragging(false)
+      setSelectedElement(null)
+      return
+    }
 
     // Check for combinations
     const nearbyElements = elements.filter(element => {
       if (element.uniqueId === draggedElement.uniqueId) return false
       const distance = Math.sqrt(
-        Math.pow(draggedElement.x - element.x, 2) +
-        Math.pow(draggedElement.y - element.y, 2)
+        Math.pow(x - element.x, 2) +
+        Math.pow(y - element.y, 2)
       )
       return distance <= 60
     })
 
     if (nearbyElements.length > 0) {
       // Calculate the midpoint between the two elements
-      const midX = (draggedElement.x + nearbyElements[0].x) / 2
-      const midY = (draggedElement.y + nearbyElements[0].y) / 2
+      const midX = (x + nearbyElements[0].x) / 2
+      const midY = (y + nearbyElements[0].y) / 2
       
       // Get the combination key
       const combinationKey = [draggedElement.id, nearbyElements[0].id].sort().join('-')
@@ -170,7 +190,7 @@ const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onT
     } else {
       // Update the position of the dragged element
       setElements(prev => prev.map(el => 
-        el.uniqueId === draggedElement.uniqueId ? { ...draggedElement } : el
+        el.uniqueId === draggedElement.uniqueId ? { ...draggedElement, x, y } : el
       ))
     }
 

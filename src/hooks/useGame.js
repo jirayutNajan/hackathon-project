@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
-import { initialElements, combinations, stages } from '../data/elements'
+import { initialElements, combinations } from '../data/elements'
+import { stages } from '../data/stages'
 
 export const useGame = () => {
   const [elements, setElements] = useState(initialElements)
@@ -7,6 +8,8 @@ export const useGame = () => {
   const [resultHint, setResultHint] = useState('')
   const [currentStageIndex, setCurrentStageIndex] = useState(0)
   const [elementTemperatures, setElementTemperatures] = useState({})
+  const [showScientificFact, setShowScientificFact] = useState(false)
+  const [newlyDiscoveredElement, setNewlyDiscoveredElement] = useState(null)
 
   const handleTemperatureChange = useCallback((elementId, temperature) => {
     setElementTemperatures(prev => ({
@@ -40,6 +43,9 @@ export const useGame = () => {
 
       setDiscoveredElements(prev => {
         if (!prev.find(el => el.id === combination.id)) {
+          // Show scientific fact for newly discovered elements
+          setNewlyDiscoveredElement(combination)
+          setShowScientificFact(true)
           return [...prev, combination]
         }
         return prev
@@ -73,6 +79,8 @@ export const useGame = () => {
     setResultHint('')
     setCurrentStageIndex(0)
     setElementTemperatures({})
+    setShowScientificFact(false)
+    setNewlyDiscoveredElement(null)
   }, [])
 
   // Get the current stage's name as the next hint
@@ -89,6 +97,9 @@ export const useGame = () => {
     elementTemperatures,
     handleTemperatureChange,
     handleCombine,
-    resetGame
+    resetGame,
+    showScientificFact,
+    newlyDiscoveredElement,
+    setShowScientificFact
   }
 }
