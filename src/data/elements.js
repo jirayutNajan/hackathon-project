@@ -145,7 +145,7 @@ export const combinations = {
     icon: "🖥️",
     category: "compound",
     description: "Computers are complex machines made from silicon and gold components that process and store information.",
-    game: "brookshear"
+    game: "comprog"
   }
 
 };

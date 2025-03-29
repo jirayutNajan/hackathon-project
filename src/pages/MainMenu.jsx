@@ -9,7 +9,7 @@ const MainMenu = () => {
         <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">Little Alchemy</h1>
         <div className="space-y-4">
           <button
-            onClick={() => navigate('/game')}
+            onClick={() => navigate('/games')}
             className="w-full py-4 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-lg font-semibold shadow-md hover:shadow-lg"
           >
             Start Game

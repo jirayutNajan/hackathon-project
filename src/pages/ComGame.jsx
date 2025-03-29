@@ -5,6 +5,7 @@ import Hint from '../components/Hint'
 import ScientificFact from '../components/ScientificFact'
 import DigitalLogicGame from '../components/DigitalLogicGame'
 import BrookshearMachineGame from '../components/BrookshearMachineGame'
+import CProgrammingGame from '../components/CProgrammingGame'
 import { useEffect, useState } from 'react'
 
 const MainGame = () => {
@@ -25,12 +26,15 @@ const MainGame = () => {
 
   const [showDigitalLogicGame, setShowDigitalLogicGame] = useState(false)
   const [showBrookshearGame, setShowBrookshearGame] = useState(false)
+  const [showCProgrammingGame, setShowCProgrammingGame] = useState(false)
 
   useEffect(() => {
     if (newlyDiscoveredElement?.game === 'digitalLogic') {
       setShowDigitalLogicGame(true)
     } else if (newlyDiscoveredElement?.game === 'brookshear') {
       setShowBrookshearGame(true)
+    } else if (newlyDiscoveredElement?.game === 'comprog') {
+      setShowCProgrammingGame(true)
     }
   }, [newlyDiscoveredElement])
 
@@ -56,7 +60,7 @@ const MainGame = () => {
           </button>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex">
           {/* Canvas Area */}
           <div className="flex-1">
             <Canvas 
@@ -93,6 +97,12 @@ const MainGame = () => {
         {showBrookshearGame && (
           <BrookshearMachineGame
             onClose={() => setShowBrookshearGame(false)}
+          />
+        )}
+
+        {showCProgrammingGame && (
+          <CProgrammingGame
+            onClose={() => setShowCProgrammingGame(false)}
           />
         )}
       </div>
