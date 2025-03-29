@@ -16,7 +16,7 @@ const ItemPanel = ({ elements, onDragStart }) => {
   }
 
   return (
-    <div className="w-64 bg-white rounded-lg shadow-lg p-4 overflow-y-auto h-[600px]">
+    <div className="w-64 bg-white rounded-lg shadow-lg p-4 overflow-y-auto h-full">
       <h2 className="text-xl font-semibold mb-4 text-gray-800">Elements</h2>
       <div className="space-y-6">
         {Object.entries(elementsByCategory).map(([category, categoryElements]) => (

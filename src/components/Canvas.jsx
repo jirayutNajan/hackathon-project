@@ -2,12 +2,28 @@ import { useEffect, useRef, useState } from 'react'
 import { combinations } from '../data/elements'
 import TemperatureControl from './TemperatureControl'
 
-const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onTemperatureChange }) => {
+const Canvas = ({ onCombine, elementTemperatures, onTemperatureChange }) => {
   const canvasRef = useRef(null)
   const [elements, setElements] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const [draggedElement, setDraggedElement] = useState(null)
   const [selectedElement, setSelectedElement] = useState(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+
+  // Update canvas dimensions when window size changes
+  useEffect(() => {
+    const updateDimensions = () => {
+      const container = canvasRef.current.parentElement
+      setDimensions({
+        width: container.clientWidth,
+        height: container.clientHeight
+      })
+    }
+
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -17,11 +33,15 @@ const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onT
       requestAnimationFrame(animationFrame)
     }
     animationFrame()
-  }, [elements, draggedElement])
+  }, [elements, draggedElement, dimensions])
 
   const drawCanvas = (ctx) => {
+    // Set canvas size to match container
+    canvasRef.current.width = dimensions.width
+    canvasRef.current.height = dimensions.height
+
     // Clear canvas
-    ctx.clearRect(0, 0, width, height)
+    ctx.clearRect(0, 0, dimensions.width, dimensions.height)
     
     // Draw elements
     elements.forEach(element => {
@@ -139,9 +159,9 @@ const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onT
     // Check if element is dragged outside canvas boundaries
     const isOutsideCanvas = 
       x < 0 || 
-      x > width || 
+      x > dimensions.width || 
       y < 0 || 
-      y > height
+      y > dimensions.height
 
     if (isOutsideCanvas) {
       // Remove the element from the canvas
@@ -222,12 +242,10 @@ const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onT
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full h-full">
       <canvas
         ref={canvasRef}
-        width={width}
-        height={height}
-        className="bg-white rounded-lg shadow-lg"
+        className="bg-white rounded-lg shadow-lg w-full h-full"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         onMouseDown={handleMouseDown}

@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ComputerEvolutionSummary from './ComputerEvolutionSummary';
 
 const CProgrammingGame = ({ onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
+  const [showCongrats, setShowCongrats] = useState(true);
 
   const exercises = [
     {
@@ -43,7 +46,7 @@ const CProgrammingGame = ({ onClose }) => {
           setUserInput('');
           setShowFeedback(false);
         } else {
-          setTimeout(() => onClose(), 1500);
+          setShowSummary(true);
         }
       }, 1500);
     }
@@ -51,9 +54,44 @@ const CProgrammingGame = ({ onClose }) => {
 
   const currentExercise = exercises[currentStep];
 
+  useEffect(() => {
+    if (showCongrats) {
+      const timer = setTimeout(() => setShowCongrats(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCongrats]);
+
+  // Scroll wheel event listener
+  const handleWheel = (event) => {
+    event.preventDefault();
+    if (event.deltaY > 0) {
+      // Scroll down
+      setCurrentStep((prev) => Math.min(prev + 1, exercises.length - 1));
+    } else {
+      // Scroll up
+      setCurrentStep((prev) => Math.max(prev - 1, 0));
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
+  if (showSummary) {
+    return <ComputerEvolutionSummary onClose={onClose} />;
+  }
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-8 max-w-4xl w-full shadow-xl border border-gray-200">
+    <div className="fixed inset-0 flex items-center justify-center z-50 overflow-y-auto">
+      <div className="bg-white rounded-lg p-8 max-w-4xl w-full shadow-xl border border-gray-200 overflow-y-auto">
+        {showCongrats && (
+          <div className="text-center mb-4 animate-fade-in">
+            <h2 className="text-3xl font-bold text-green-600">🎉 Congratulations on starting your C Programming Journey! 🎉</h2>
+          </div>
+        )}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">C Programming Challenge</h2>
           <p className="text-lg text-gray-600">

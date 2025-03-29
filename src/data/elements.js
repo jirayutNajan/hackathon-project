@@ -146,6 +146,14 @@ export const combinations = {
     category: "compound",
     description: "Computers are complex machines made from silicon and gold components that process and store information.",
     game: "comprog"
+  },
+  "water-water": {
+    id: "computer",
+    name: "Computer",
+    icon: "🖥️",
+    category: "compound",
+    description: "Computers are complex machines made from silicon and gold components that process and store information.",
+    game: "comprog"
   }
 
 };
