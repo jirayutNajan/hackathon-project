@@ -6,7 +6,7 @@ const MainMenu = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
-        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">Little Alchemy</h1>
+        <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">Little Sparks</h1>
         <div className="space-y-4">
           <button
             onClick={() => navigate('/games')}

@@ -6,8 +6,8 @@ const GameSelection = () => {
   const games = [
     {
       id: 'comgame',
-      name: 'Computer Evolution',
-      description: 'Learn about computer evolution from basic elements to programming',
+      name: 'Build Your Own Computer',
+      description: 'Learn to make your own computer from scratch',
       icon: '🖥️',
       path: '/game/comgame'
     },
