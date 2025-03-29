@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/game/:path*",
+      "destination": "/index.html",
+      "permanent": false
+    }
+  ]
+}
