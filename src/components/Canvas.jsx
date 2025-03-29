@@ -172,6 +172,23 @@ const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onT
       const combination = combinations[combinationKey]
 
       if (combination) {
+        // Check temperature requirements if the combination needs it
+        if (combination.requiresTemperature) {
+          const fireTemp = elementTemperatures[draggedElement.id] || draggedElement.defaultTemp
+          const waterTemp = elementTemperatures[nearbyElements[0].id] || nearbyElements[0].defaultTemp
+          
+          if (fireTemp < combination.minTemp || fireTemp > combination.maxTemp) {
+            // Return element to original position
+            setElements(prev => prev.map(el => 
+              el.uniqueId === draggedElement.uniqueId ? { ...el } : el
+            ))
+            onCombine(draggedElement, nearbyElements[0]) // This will show the temperature error message
+            setDraggedElement(null)
+            setIsDragging(false)
+            return
+          }
+        }
+
         // Remove the combined elements and add the new element
         setElements(prev => {
           const remainingElements = prev.filter(el => 
@@ -186,6 +203,12 @@ const Canvas = ({ onCombine, width = 600, height = 600, elementTemperatures, onT
           return [...remainingElements, newElement]
         })
         onCombine(draggedElement, nearbyElements[0])
+      } else {
+        // Return element to original position if combination doesn't exist
+        setElements(prev => prev.map(el => 
+          el.uniqueId === draggedElement.uniqueId ? { ...el } : el
+        ))
+        onCombine(draggedElement, nearbyElements[0]) // This will show the "cannot be combined" message
       }
     } else {
       // Update the position of the dragged element

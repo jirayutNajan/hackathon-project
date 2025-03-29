@@ -3,6 +3,9 @@ import Canvas from '../components/Canvas'
 import ItemPanel from '../components/ItemPanel'
 import Hint from '../components/Hint'
 import ScientificFact from '../components/ScientificFact'
+import DigitalLogicGame from '../components/DigitalLogicGame'
+import BrookshearMachineGame from '../components/BrookshearMachineGame'
+import { useEffect, useState } from 'react'
 
 const MainGame = () => {
   const {
@@ -16,8 +19,29 @@ const MainGame = () => {
     resetGame,
     showScientificFact,
     newlyDiscoveredElement,
-    setShowScientificFact
+    setShowScientificFact,
+    currentStage
   } = useGame()
+
+  const [showDigitalLogicGame, setShowDigitalLogicGame] = useState(false)
+  const [showBrookshearGame, setShowBrookshearGame] = useState(false)
+
+  useEffect(() => {
+    if (newlyDiscoveredElement?.game === 'digitalLogic') {
+      setShowDigitalLogicGame(true)
+    } else if (newlyDiscoveredElement?.game === 'brookshear') {
+      setShowBrookshearGame(true)
+    }
+  }, [newlyDiscoveredElement])
+
+  useEffect(() => {
+    console.log('Game State Update:', {
+      currentStage: currentStage?.name || 'No stage',
+      discoveredElementsCount: discoveredElements.length,
+      discoveredElements: discoveredElements.map(el => el.name),
+      totalElements: elements.length + discoveredElements.length
+    })
+  }, [currentStage, discoveredElements, elements])
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -57,6 +81,18 @@ const MainGame = () => {
           <ScientificFact
             element={newlyDiscoveredElement}
             onClose={() => setShowScientificFact(false)}
+          />
+        )}
+
+        {showDigitalLogicGame && (
+          <DigitalLogicGame
+            onClose={() => setShowDigitalLogicGame(false)}
+          />
+        )}
+
+        {showBrookshearGame && (
+          <BrookshearMachineGame
+            onClose={() => setShowBrookshearGame(false)}
           />
         )}
       </div>
