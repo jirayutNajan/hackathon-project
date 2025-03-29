@@ -33,7 +33,6 @@ export const combinations = {
     icon: "🌫️", 
     category: "compound",
     description: "Dust is formed when wind (air) erodes and carries away tiny particles from the earth's surface. This process is called wind erosion.",
-    game: "digitalLogic"
   },
   "earth-fire": {
     id: "dust",
@@ -44,7 +43,6 @@ export const combinations = {
     minTemp: 800,
     maxTemp: 1000,
     description: "When fire burns organic matter, it creates ash and dust particles through combustion.",
-    game: "brookshear"
   },
   "dust-earth": { 
     id: "rock", 
@@ -118,27 +116,38 @@ export const combinations = {
     category: "compound",
     description: "Silicon is a semiconductor material that can control the flow of electricity, making it essential for electronic devices."
   },
-  "metal-semi-conductor": { 
-    id: 'transistor', 
-    name: 'Transistor', 
-    icon: '𓇲', 
-    category: 'compound',
-    description: "A transistor is created by combining metal and semiconductor materials. It acts as an electronic switch or amplifier, controlling the flow of electricity. This invention revolutionized electronics and paved the way for modern computing."
+  "energy-silicon": {
+    id: "semi-conductor",
+    name: "SC",
+    icon: "📱",
+    category: "compound",
+    description: "Silicon is a semiconductor material that can control the flow of electricity, making it essential for electronic devices."
   },
-  "fire-fire": { 
-    id: 'transistor', 
-    name: 'Transistor', 
-    icon: '𓇲', 
-    category: 'compound',
-    description: "A transistor is created by combining metal and semiconductor materials. It acts as an electronic switch or amplifier, controlling the flow of electricity. This invention revolutionized electronics and paved the way for modern computing."
+  "metal-semi-conductor": {
+    id: "transistor",
+    name: "Transistor",
+    icon: "𓇲",
+    category: "compound",
+    description: " Transistors are semiconductor devices made from silicon that can amplify or switch electronic signals, forming the basis of modern electronics.",
+    game: "digitalLogic"
   },
-  "transistor-gold": { 
-    id: 'cpu', 
-    name: 'CPU', 
-    icon: '🔲', 
-    category: 'compound',
-    description: "The CPU (Central Processing Unit) is the brain of a computer, made up of millions of transistors connected with gold wiring. Gold is used because it's an excellent conductor of electricity and doesn't corrode, ensuring reliable connections between transistors."
+  "transistor-gold": {
+    id: "cpu",
+    name: "CPU",
+    icon: "🔲",
+    category: "compound",
+    description: " CPUs are made from silicon and gold, which are used to create the intricate circuits that process data in computers.",
+    game: "brookshear"
   },
+  "cpu-cpu": {
+    id: "computer",
+    name: "Computer",
+    icon: "🖥️",
+    category: "compound",
+    description: "Computers are complex machines made from silicon and gold components that process and store information.",
+    game: "brookshear"
+  }
+
 };
 
 export const categories = {
